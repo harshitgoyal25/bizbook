@@ -19,7 +19,7 @@ class SaleDetailScreen extends StatefulWidget {
 }
 
 class _SaleDetailScreenState extends State<SaleDetailScreen> {
-  bool _isExporting = false;
+  bool isExporting = false;
   Future<void> _exportToPdf(BuildContext context) async {
     try {
       // Show loading indicator
@@ -40,7 +40,10 @@ class _SaleDetailScreenState extends State<SaleDetailScreen> {
       );
 
       final file = await PdfExportUtil.generateSaleDetailReport(widget.sale);
-
+      if (!context.mounted) {
+        // If the context is no longer mounted, exit early
+        return;
+      }
       // Close loading dialog
       Navigator.pop(context);
 

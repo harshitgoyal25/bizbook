@@ -159,6 +159,9 @@ class _UnpaidOrdersReportScreenState extends State<UnpaidOrdersReportScreen> {
             onPressed: () {
               Navigator.pop(context);
               PdfExportUtil.openPDF(file).catchError((error) {
+                if (!context.mounted) {
+                  return; // Check if widget is still mounted
+                }
                 AuthService()
                     .showToast(context, "Failed to open PDF: $error", false);
               });
@@ -169,6 +172,9 @@ class _UnpaidOrdersReportScreenState extends State<UnpaidOrdersReportScreen> {
             onPressed: () {
               Navigator.pop(context);
               PdfExportUtil.sharePDF(file).catchError((error) {
+                if (!context.mounted) {
+                  return; // Check if widget is still mounted
+                }
                 AuthService()
                     .showToast(context, "Failed to share PDF: $error", false);
               });
@@ -434,7 +440,7 @@ class CustomerDetailScreen extends StatelessWidget {
       );
 
       final file = await PdfExportUtil.generateSaleDetailReport(sale);
-
+      if (!context.mounted) return;
       // Close loading dialog
       Navigator.pop(context);
 

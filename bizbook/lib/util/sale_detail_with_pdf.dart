@@ -4,13 +4,11 @@ import 'package:bizbook/backend/sale_model.dart';
 import 'package:bizbook/util/pdf_export.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:bizbook/widget/appbar.dart';
 
 class SaleDetailScreen extends StatelessWidget {
   final Sale sale;
-  bool _isExporting = false;
 
-  SaleDetailScreen({
+  const SaleDetailScreen({
     super.key,
     required this.sale,
   });
@@ -35,6 +33,10 @@ class SaleDetailScreen extends StatelessWidget {
       );
 
       final file = await PdfExportUtil.generateSaleDetailReport(sale);
+      if (!context.mounted) {
+        // If the context is no longer mounted, exit early
+        return;
+      }
 
       // Close loading dialog
       Navigator.pop(context);
@@ -62,6 +64,9 @@ class SaleDetailScreen extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
               PdfExportUtil.openPDF(file).catchError((error) {
+                if (!context.mounted) {
+                  return; // Check if widget is still mounted
+                }
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("Failed to open PDF: $error")),
                 );

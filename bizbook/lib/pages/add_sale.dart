@@ -22,7 +22,7 @@ class AddSaleScreenState extends State<AddSaleScreen> {
   Customer? _selectedCustomer;
   List<Customer> _customers = [];
   List<InventoryItem> _inventoryItems = [];
-  List<SaleItem> _saleItems = [];
+  List<SaleItem> saleItems = [];
 
   final TextEditingController _notesController = TextEditingController();
   String _paymentMethod = 'Cash';
@@ -100,12 +100,12 @@ class AddSaleScreenState extends State<AddSaleScreen> {
   void _addItem(InventoryItem item) {
     // Check if item already exists in sale
     final existingItemIndex =
-        _saleItems.indexWhere((saleItem) => saleItem.itemId == item.id);
+        saleItems.indexWhere((saleItem) => saleItem.itemId == item.id);
 
     setState(() {
       if (existingItemIndex >= 0) {
         // Increment quantity if item already exists
-        final existingItem = _saleItems[existingItemIndex];
+        final existingItem = saleItems[existingItemIndex];
         final inventoryItem = _inventoryItems
             .firstWhere((inventoryItem) => inventoryItem.id == item.id);
 
@@ -119,7 +119,7 @@ class AddSaleScreenState extends State<AddSaleScreen> {
           return;
         }
 
-        _saleItems[existingItemIndex] = SaleItem(
+        saleItems[existingItemIndex] = SaleItem(
           itemId: existingItem.itemId,
           itemName: existingItem.itemName,
           price: existingItem.price,
@@ -135,7 +135,7 @@ class AddSaleScreenState extends State<AddSaleScreen> {
           return;
         }
 
-        _saleItems.add(SaleItem(
+        saleItems.add(SaleItem(
           itemId: item.id,
           itemName: item.name,
           price: item.price,
@@ -171,7 +171,7 @@ class AddSaleScreenState extends State<AddSaleScreen> {
 
   void _removeItem(int index) {
     setState(() {
-      _saleItems.removeAt(index);
+      saleItems.removeAt(index);
     });
   }
 
@@ -181,7 +181,7 @@ class AddSaleScreenState extends State<AddSaleScreen> {
       return;
     }
 
-    final item = _saleItems[index];
+    final item = saleItems[index];
     final inventoryItem = _inventoryItems
         .firstWhere((inventoryItem) => inventoryItem.id == item.itemId);
 
@@ -196,7 +196,7 @@ class AddSaleScreenState extends State<AddSaleScreen> {
     }
 
     setState(() {
-      _saleItems[index] = SaleItem(
+      saleItems[index] = SaleItem(
         itemId: item.itemId,
         itemName: item.itemName,
         price: item.price,
@@ -207,7 +207,7 @@ class AddSaleScreenState extends State<AddSaleScreen> {
   }
 
   double get _totalAmount {
-    return _saleItems.fold(0, (sum, item) => sum + item.total);
+    return saleItems.fold(0, (sum, item) => sum + item.total);
   }
 
   Future<void> _selectCustomer() async {
@@ -230,7 +230,7 @@ class AddSaleScreenState extends State<AddSaleScreen> {
       return;
     }
 
-    if (_saleItems.isEmpty) {
+    if (saleItems.isEmpty) {
       AuthService().showToast(context, 'Please add at least one item', false);
       return;
     }
@@ -250,7 +250,7 @@ class AddSaleScreenState extends State<AddSaleScreen> {
         customerName: _selectedCustomer!.name,
         amount: _totalAmount,
         date: now,
-        items: _saleItems,
+        items: saleItems,
         paymentMethod: _paymentMethod,
         notes: _notesController.text,
         timestamp: now.millisecondsSinceEpoch,
@@ -268,7 +268,7 @@ class AddSaleScreenState extends State<AddSaleScreen> {
       });
 
       // Update inventory quantities
-      for (final saleItem in _saleItems) {
+      for (final saleItem in saleItems) {
         final inventoryItemIndex = _inventoryItems
             .indexWhere((inventoryItem) => inventoryItem.id == saleItem.itemId);
         if (inventoryItemIndex >= 0) {
@@ -440,7 +440,7 @@ class AddSaleScreenState extends State<AddSaleScreen> {
                           const SizedBox(height: 12),
 
                           // Selected items list
-                          if (_saleItems.isNotEmpty)
+                          if (saleItems.isNotEmpty)
                             Container(
                               decoration: BoxDecoration(
                                 color: const Color(0xFFF2EBE6),
@@ -449,11 +449,11 @@ class AddSaleScreenState extends State<AddSaleScreen> {
                               child: ListView.separated(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: _saleItems.length,
+                                itemCount: saleItems.length,
                                 separatorBuilder: (context, index) =>
                                     const Divider(height: 1),
                                 itemBuilder: (context, index) {
-                                  final item = _saleItems[index];
+                                  final item = saleItems[index];
                                   return Padding(
                                     padding: const EdgeInsets.all(12),
                                     child: Row(
@@ -690,7 +690,7 @@ class AddSaleScreenState extends State<AddSaleScreen> {
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withValues(alpha: 0.1),
                           blurRadius: 4,
                           offset: const Offset(0, -2),
                         ),

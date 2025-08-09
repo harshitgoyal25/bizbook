@@ -57,7 +57,7 @@ class ForgetPageState extends State<ForgetPage> {
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
+                      color: Colors.black.withValues(alpha: 0.2),
                       spreadRadius: 2,
                       blurRadius: 8,
                       offset: Offset(0, 4),

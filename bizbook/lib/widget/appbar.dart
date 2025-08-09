@@ -59,7 +59,7 @@ Widget drawer(BuildContext context, String name) {
           leading: const Icon(Icons.dashboard),
           title: const Text('Dashboard'),
           selected: name == "Dashboard" ? true : false,
-          selectedTileColor: Colors.green.withOpacity(0.1),
+          selectedTileColor: Colors.green.withValues(alpha: 0.1),
           onTap: () {
             if (name == "Dashboard") return;
             Navigator.pushReplacement(
@@ -74,7 +74,7 @@ Widget drawer(BuildContext context, String name) {
           leading: const Icon(Icons.inventory),
           title: const Text('Inventory'),
           selected: name == "Inventory" ? true : false,
-          selectedTileColor: Colors.green.withOpacity(0.1),
+          selectedTileColor: Colors.green.withValues(alpha: 0.1),
           onTap: () {
             if (name == "Inventory") return;
             Navigator.push(
@@ -89,7 +89,7 @@ Widget drawer(BuildContext context, String name) {
           leading: const Icon(Icons.people),
           title: const Text('Customers'),
           selected: name == "Customers" ? true : false,
-          selectedTileColor: Colors.green.withOpacity(0.1),
+          selectedTileColor: Colors.green.withValues(alpha: 0.1),
           onTap: () {
             if (name == "Customers") return;
             Navigator.push(
@@ -103,7 +103,7 @@ Widget drawer(BuildContext context, String name) {
         ListTile(
           leading: const Icon(Icons.receipt),
           selected: name == "Billings" ? true : false,
-          selectedTileColor: Colors.green.withOpacity(0.1),
+          selectedTileColor: Colors.green.withValues(alpha: 0.1),
           title: const Text('Billings'),
           onTap: () {
             if (name == "Billings") return;
@@ -119,7 +119,7 @@ Widget drawer(BuildContext context, String name) {
           leading: const Icon(Icons.bar_chart),
           title: const Text('Unpaid Orders'),
           selected: name == "Reports" ? true : false,
-          selectedTileColor: Colors.green.withOpacity(0.1),
+          selectedTileColor: Colors.green.withValues(alpha: 0.1),
           onTap: () {
             if (name == "Reports") return;
             Navigator.pushReplacement(
@@ -134,7 +134,7 @@ Widget drawer(BuildContext context, String name) {
           leading: const Icon(Icons.shopping_bag_outlined),
           title: const Text('Add Sales'),
           selected: name == "Add Sales" ? true : false,
-          selectedTileColor: Colors.green.withOpacity(0.1),
+          selectedTileColor: Colors.green.withValues(alpha: 0.1),
           onTap: () {
             if (name == "Add Sales") return;
             Navigator.push(

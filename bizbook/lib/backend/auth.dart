@@ -39,7 +39,6 @@ class AuthService extends ChangeNotifier {
       User? user = result.user;
       return user;
     } catch (e) {
-      print(e.toString());
       return null;
     }
   }
@@ -50,7 +49,6 @@ class AuthService extends ChangeNotifier {
       _isAuthenticated = false;
       notifyListeners(); // Notify
     } catch (e) {
-      print(e.toString());
       return;
     }
   }
@@ -75,8 +73,6 @@ class AuthService extends ChangeNotifier {
       await _auth.sendPasswordResetEmail(email: email);
       if (!context.mounted) return;
       showToast(context, "Password reset email sent", true);
-    } catch (e) {
-      print("Failed to send password reset email: ${e.toString()}");
-    }
+    } catch (e) {}
   }
 }

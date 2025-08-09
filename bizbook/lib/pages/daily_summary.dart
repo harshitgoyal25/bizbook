@@ -21,7 +21,7 @@ class DailySummaryScreenState extends State<DailySummaryScreen> {
   bool _isLoading = true;
   bool _isExportingDaily = false;
   bool _isExportingMonthly = false;
-  int _notificationCount = 1;
+  int notificationCount = 1;
 
   // Summary data
   double _todayRevenue = 0.0;
@@ -92,7 +92,6 @@ class DailySummaryScreenState extends State<DailySummaryScreen> {
         _isLoading = false;
       });
     } catch (e) {
-      print('Error loading summary data: $e');
       setState(() {
         _isLoading = false;
       });
@@ -147,7 +146,7 @@ class DailySummaryScreenState extends State<DailySummaryScreen> {
       setState(() {
         _isExportingDaily = false;
       });
-
+      if (!mounted) return; // Check if widget is still mounted
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to export PDF: $e')),
       );
@@ -213,7 +212,7 @@ class DailySummaryScreenState extends State<DailySummaryScreen> {
       setState(() {
         _isExportingMonthly = false;
       });
-
+      if (!mounted) return; // Check if widget is still mounted
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to export PDF: $e')),
       );
@@ -232,6 +231,9 @@ class DailySummaryScreenState extends State<DailySummaryScreen> {
             onPressed: () {
               Navigator.pop(context);
               PdfExportUtil.openPDF(file).catchError((error) {
+                if (!context.mounted) {
+                  return; // Check if widget is still mounted
+                }
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("Failed to open PDF: $error")),
                 );

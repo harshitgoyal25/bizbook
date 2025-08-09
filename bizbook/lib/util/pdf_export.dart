@@ -7,7 +7,6 @@ import 'package:open_file/open_file.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:bizbook/backend/sale_model.dart';
-import 'package:bizbook/backend/customer.dart';
 
 class PdfExportUtil {
   // Add these methods to your existing PdfExportUtil class
@@ -220,7 +219,7 @@ class PdfExportUtil {
 
     // Calculate average daily sales
     final now = DateTime.now();
-    final daysInMonth = DateTime(now.year, now.month + 1, 0).day;
+    // final daysInMonth = DateTime(now.year, now.month + 1, 0).day;
     final daysPassed = now.day;
     final avgDailySales = totalSales / daysPassed;
 
@@ -295,7 +294,7 @@ class PdfExportUtil {
             children: [
               pw.Text('Average Daily Sales:', style: pw.TextStyle(font: ttf)),
               pw.Text(
-                '${avgDailySales.toStringAsFixed(1)}',
+                avgDailySales.toStringAsFixed(1),
                 style: pw.TextStyle(font: boldTtf),
               ),
             ],
@@ -402,7 +401,7 @@ class PdfExportUtil {
                   ),
                 ],
               );
-            }).toList(),
+            }),
             // Total row
             pw.TableRow(
               decoration: const pw.BoxDecoration(color: PdfColors.brown100),
@@ -502,7 +501,7 @@ class PdfExportUtil {
                   ),
                 ],
               );
-            }).toList(),
+            }),
             // Total row
             pw.TableRow(
               decoration: const pw.BoxDecoration(color: PdfColors.brown100),
@@ -640,7 +639,7 @@ class PdfExportUtil {
                   ),
                 ],
               );
-            }).toList(),
+            }),
           ],
         ),
       ],
@@ -911,7 +910,7 @@ class PdfExportUtil {
                   ),
                 ],
               );
-            }).toList(),
+            }),
           ],
         ),
       ],
@@ -1087,7 +1086,7 @@ class PdfExportUtil {
                           ),
                         ],
                       );
-                    }).toList(),
+                    }),
                   ],
                 )
               : pw.Padding(
@@ -1163,8 +1162,10 @@ class PdfExportUtil {
   }
 
   static Future<void> sharePDF(File file) async {
-    await Share.shareXFiles([XFile(file.path)],
-        text: 'Sharing PDF report from BizBook');
+    await SharePlus.instance.share(ShareParams(
+      files: [XFile(file.path)],
+      text: 'Sharing PDF report from BizBook',
+    ));
   }
 
   static int min(int a, int b) {

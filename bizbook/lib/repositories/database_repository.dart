@@ -21,7 +21,6 @@ class DatabaseRepository {
 
       return salesList;
     } catch (e) {
-      print('Error fetching sales: $e');
       return [];
     }
   }
@@ -33,7 +32,6 @@ class DatabaseRepository {
 
       return Sale.fromMap(id, saleSnapshot.value as Map<dynamic, dynamic>);
     } catch (e) {
-      print('Error fetching sale by ID: $e');
       return null;
     }
   }
@@ -51,7 +49,6 @@ class DatabaseRepository {
 
       return newSaleRef.key!;
     } catch (e) {
-      print('Error adding sale: $e');
       throw Exception('Failed to add sale: $e');
     }
   }
@@ -71,7 +68,6 @@ class DatabaseRepository {
 
       return customersList;
     } catch (e) {
-      print('Error fetching customers: $e');
       return [];
     }
   }
@@ -85,7 +81,6 @@ class DatabaseRepository {
       return Customer.fromMap(
           id, customerSnapshot.value as Map<dynamic, dynamic>);
     } catch (e) {
-      print('Error fetching customer by ID: $e');
       return null;
     }
   }
@@ -111,7 +106,6 @@ class DatabaseRepository {
 
       return customersList;
     } catch (e) {
-      print('Error fetching new customers: $e');
       return [];
     }
   }
@@ -131,7 +125,6 @@ class DatabaseRepository {
 
       return inventoryList;
     } catch (e) {
-      print('Error fetching inventory: $e');
       return [];
     }
   }
@@ -155,7 +148,6 @@ class DatabaseRepository {
 
       return lowStockList;
     } catch (e) {
-      print('Error fetching low stock items: $e');
       return [];
     }
   }
@@ -228,7 +220,6 @@ class DatabaseRepository {
         'recentSales': recentSales.take(5).toList(),
       };
     } catch (e) {
-      print('Error getting daily summary: $e');
       return {
         'todaySales': 0,
         'todayRevenue': 0.0,
